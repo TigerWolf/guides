@@ -192,3 +192,64 @@ Objective-C
 
 * Prefer categories on `Foundation` classes to helper methods.
 * Prefer string constants to literals when providing keys or key paths to methods.
+
+Shell
+-----
+
+* Prefer POSIX portability if possible.\*
+* Don't use an `sh` shebang if you use any [non-POSIX][bashisms] 
+  features.\*\*
+* Use `$( ... )`, not backticks.
+* Use `$(( ... )`, not `expr`.
+* Prefer `printf` over `echo`.
+* Prefer checking exit statuses over output in `if` statements (i.e. `if 
+  grep -q ...; `, not `if [ -n "$(grep ...)" ];`.
+* Prefer reading environment variables over process output when possible 
+  (`$TTY` not `$(tty)`, `$PWD` not `$(pwd)`, etc).
+* Prefer `for` loops over `while read` loops.
+* Don't use "$\*" unless you know exactly what you're doing.
+* Don't parse the output of `ls` or `find`.
+* Don't quote glob or regular expression literals.
+* Quote every `"$variable"` and `"$( ... )"` expression except those 
+  containing globs or regular expressions.
+* Use `1` and `0`, not `true` and `false` to represent boolean 
+  variables.
+* Mark function-scoped variables with the `local` keyword.
+* Don't use `cat` to provide a file on `stdin` to a process that accepts 
+  file arguments itself.
+* Use `find -print0 | xargs -0`, not `find | xargs`.
+* Prefer `find -exec {} +` to `find -print0 | xargs -0`.
+* Prefer `grep -c` to `grep | wc -l`.
+* Prefer `awk '/re/ { ... }'` to `grep re | awk '{ ... }'`.
+* Prefer `sed '/re/!d; s//.../'` to `grep re| sed 's/re/.../'`.
+* Prefer `sed 'cmd; cmd'` to `sed -e 'cmd' -e 'cmd'`.
+* Don't use `[ x$var = x ]` to check for emptiness.
+* Don't use `$$` to "uniquely" name a file, use `mktemp`.
+* If calling `cd`, have code to handle a failure to change directories.
+* If calling `rm` with a variable, ensure the variable is not empty.
+
+[bashisms]: http://mywiki.wooledge.org/Bashism
+
+\* Consider carefully if POSIX portability is important to you. If so, 
+research thoroughly what constructs you can and cannot use; otherwise, 
+target Bash. Scripts written at thoughtbot are typically run on OSX, 
+Linux, or Heroku. In all cases, a reasonably modern version of Bash is 
+available by default and POSIX portability is not required.
+
+\*\* `/bin/sh` is not a shell. It is a symlink to a specific shell; 
+which shell that is depends on the system. When invoked this way, that 
+shell should run in a "POSIX-compatible" mode. Even under this mode, 
+many non-POSIX features will still work. This means simply ensuring it 
+runs on your system with whatever shell your `/bin/sh` happens to link 
+to is not enough to consider it portable.
+
+Bash
+----
+
+In addition to Shell best practices,
+
+* Use `((` or `let`, not `$((` when you don't need the result
+* Prefer `[[` over `test` or `[`.
+* Prefer `${var//from/to}` over `sed` for simple string replacements.
+* Prefer `${var,,}` and `${var^^}` over `tr` for changing case.
+* Prefer process substitution over a pipe in `while read` loops.
