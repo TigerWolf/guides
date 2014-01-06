@@ -290,12 +290,12 @@ Python
 Shell
 -----
 
+* Break long lines on `|`, `&&`, or `||` and indent the continuations.
 * Don't add an extension to executable shell scripts.
-* Use two-space indentation.
-* Name variables in `snake_case`.
-* Don't use upper case variable names.
 * Don't put a line break before `then` or `do`, use `if ...; then` and 
   `while ...; do`.
+* Don't use upper case variable names.
+* Name variables in `snake_case`.
+* Use `for x; do`, not `for x in "$@"; do`.
 * Use single quotes for strings that don't contain escapes or variables.
-* Use `for x; do` not `for x in "$@"; do`.
-* Break long lines on `|`, `&&`, or `||` and indent the continuations.
+* Use two-space indentation.

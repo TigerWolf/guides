@@ -196,38 +196,38 @@ Objective-C
 Shell
 -----
 
-* Prefer POSIX portability if possible.\*
+* Don't parse the output of `ls` or `find`.
+* Don't quote globs.
+* Don't use `[ x$var = x ]` to check for emptiness, use a properly 
+  quoted conditional instead: `[ -z "$var" ]` or `[ "$var" = "" ]`.
+* Don't use `cat` to provide a file on `stdin` to a process that accepts 
+  file arguments itself.
 * Don't use an `sh` shebang if you use any [non-POSIX][bashisms] 
   features.\*\*
-* Use `$( ... )`, not backticks for capturing command output.
-* Use `$(( ... )`, not `expr` for executing arithmetic expressions.
+* If calling `cd`, have code to handle a failure to change directories.
+* If calling `rm` with a variable, ensure the variable is not empty.
+* Prefer "$@" over "$\*" unless you know exactly what you're doing.
+* Prefer POSIX portability if possible.\*
+* Prefer `awk '/re/ { ... }'` to `grep re | awk '{ ... }'`.
+* Prefer `find -exec {} +` to `find -print0 | xargs -0`.
+* Prefer `for` loops over `while read` loops.
+* Prefer `grep -c` to `grep | wc -l`.
+* Prefer `mktemp` over using `$$` to "uniquely" name a temporary file.
 * Prefer `printf` over `echo`.
+* Prefer `sed '/re/!d; s//.../'` to `grep re | sed 's/re/.../'`.
+* Prefer `sed 'cmd; cmd'` to `sed -e 'cmd' -e 'cmd'`.
 * Prefer checking exit statuses over output in `if` statements (`if grep 
   -q ...; `, not `if [ -n "$(grep ...)" ];`).
 * Prefer reading environment variables over process output (`$TTY` not 
   `$(tty)`, `$PWD` not `$(pwd)`, etc).
-* Prefer `for` loops over `while read` loops.
-* Prefer "$@" over "$\*" unless you know exactly what you're doing.
-* Don't parse the output of `ls` or `find`.
-* Don't quote globs.
-* Use quotes around every `"$variable"` and `"$( ... )"` expression 
-  except those containing globs.
+* Use `$( ... )`, not backticks for capturing command output.
+* Use `$(( ... )`, not `expr` for executing arithmetic expressions.
 * Use `1` and `0`, not `true` and `false` to represent boolean 
   variables.
-* Use the `local` keyword with function-scoped variables.
-* Don't use `cat` to provide a file on `stdin` to a process that accepts 
-  file arguments itself.
 * Use `find -print0 | xargs -0`, not `find | xargs`.
-* Prefer `find -exec {} +` to `find -print0 | xargs -0`.
-* Prefer `grep -c` to `grep | wc -l`.
-* Prefer `awk '/re/ { ... }'` to `grep re | awk '{ ... }'`.
-* Prefer `sed '/re/!d; s//.../'` to `grep re| sed 's/re/.../'`.
-* Prefer `sed 'cmd; cmd'` to `sed -e 'cmd' -e 'cmd'`.
-* Don't use `[ x$var = x ]` to check for emptiness, use a properly 
-  quoted conditional instead: `[ -z "$var" ]` or `[ "$var" = "" ]`.
-* Prefer `mktemp` over using `$$` to "uniquely" name a temporary file.
-* If calling `cd`, have code to handle a failure to change directories.
-* If calling `rm` with a variable, ensure the variable is not empty.
+* Use quotes around every `"$variable"` and `"$( ... )"` expression 
+  except those containing globs.
+* Use the `local` keyword with function-scoped variables.
 * Identify common problems with [shellcheck][].
 
 [bashisms]: http://mywiki.wooledge.org/Bashism
@@ -251,8 +251,8 @@ Bash
 
 In addition to Shell best practices,
 
-* Use `((` or `let`, not `$((` when you don't need the result
-* Prefer `[[` over `test` or `[`.
-* Prefer `${var//from/to}` over `sed` for simple string replacements.
 * Prefer `${var,,}` and `${var^^}` over `tr` for changing case.
+* Prefer `${var//from/to}` over `sed` for simple string replacements.
+* Prefer `[[` over `test` or `[`.
 * Prefer process substitution over a pipe in `while read` loops.
+* Use `((` or `let`, not `$((` when you don't need the result
