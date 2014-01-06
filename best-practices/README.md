@@ -199,8 +199,8 @@ Shell
 * Prefer POSIX portability if possible.\*
 * Don't use an `sh` shebang if you use any [non-POSIX][bashisms] 
   features.\*\*
-* Use `$( ... )`, not backticks.
-* Use `$(( ... )`, not `expr`.
+* Use `$( ... )`, not backticks for capturing command output.
+* Use `$(( ... )`, not `expr` for executing arithmetic expressions.
 * Prefer `printf` over `echo`.
 * Prefer checking exit statuses over output in `if` statements (`if grep 
   -q ...; `, not `if [ -n "$(grep ...)" ];`).
