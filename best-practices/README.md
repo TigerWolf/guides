@@ -202,19 +202,19 @@ Shell
 * Use `$( ... )`, not backticks.
 * Use `$(( ... )`, not `expr`.
 * Prefer `printf` over `echo`.
-* Prefer checking exit statuses over output in `if` statements (i.e. `if 
-  grep -q ...; `, not `if [ -n "$(grep ...)" ];`.
-* Prefer reading environment variables over process output when possible 
-  (`$TTY` not `$(tty)`, `$PWD` not `$(pwd)`, etc).
+* Prefer checking exit statuses over output in `if` statements (`if grep 
+  -q ...; `, not `if [ -n "$(grep ...)" ];`).
+* Prefer reading environment variables over process output (`$TTY` not 
+  `$(tty)`, `$PWD` not `$(pwd)`, etc).
 * Prefer `for` loops over `while read` loops.
-* Don't use "$\*" unless you know exactly what you're doing.
+* Prefer "$@" over "$\*" unless you know exactly what you're doing.
 * Don't parse the output of `ls` or `find`.
-* Don't quote glob or regular expression literals.
-* Quote every `"$variable"` and `"$( ... )"` expression except those 
-  containing globs or regular expressions.
+* Don't quote globs.
+* Use quotes around every `"$variable"` and `"$( ... )"` expression 
+  except those containing globs.
 * Use `1` and `0`, not `true` and `false` to represent boolean 
   variables.
-* Mark function-scoped variables with the `local` keyword.
+* Use the `local` keyword with function-scoped variables.
 * Don't use `cat` to provide a file on `stdin` to a process that accepts 
   file arguments itself.
 * Use `find -print0 | xargs -0`, not `find | xargs`.
@@ -223,12 +223,15 @@ Shell
 * Prefer `awk '/re/ { ... }'` to `grep re | awk '{ ... }'`.
 * Prefer `sed '/re/!d; s//.../'` to `grep re| sed 's/re/.../'`.
 * Prefer `sed 'cmd; cmd'` to `sed -e 'cmd' -e 'cmd'`.
-* Don't use `[ x$var = x ]` to check for emptiness.
-* Don't use `$$` to "uniquely" name a file, use `mktemp`.
+* Don't use `[ x$var = x ]` to check for emptiness, use a properly 
+  quoted conditional instead: `[ -z "$var" ]` or `[ "$var" = "" ]`.
+* Prefer `mktemp` over using `$$` to "uniquely" name a temporary file.
 * If calling `cd`, have code to handle a failure to change directories.
 * If calling `rm` with a variable, ensure the variable is not empty.
+* Identify common problems with [shellcheck][].
 
 [bashisms]: http://mywiki.wooledge.org/Bashism
+[shellcheck]: http://www.shellcheck.net/
 
 \* Consider carefully if POSIX portability is important to you. If so, 
 research thoroughly what constructs you can and cannot use; otherwise, 
