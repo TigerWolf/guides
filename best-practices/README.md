@@ -196,8 +196,8 @@ Objective-C
 Shell
 -----
 
-* Don't parse the output of `ls` or `find`.
-* Don't quote globs.
+* Don't parse the output of `ls`. See [here][parsingls] for details and 
+  alternatives.
 * Don't use `[ x$var = x ]` to check for emptiness, use a properly 
   quoted conditional instead: `[ -z "$var" ]` or `[ "$var" = "" ]`.
 * Don't use `cat` to provide a file on `stdin` to a process that accepts 
@@ -226,10 +226,11 @@ Shell
   variables.
 * Use `find -print0 | xargs -0`, not `find | xargs`.
 * Use quotes around every `"$variable"` and `"$( ... )"` expression 
-  except those containing globs.
+  unless you want them to be word-split and/or interpreted as globs.
 * Use the `local` keyword with function-scoped variables.
 * Identify common problems with [shellcheck][].
 
+[parsingls]: http://mywiki.wooledge.org/ParsingLs
 [bashisms]: http://mywiki.wooledge.org/Bashism
 [shellcheck]: http://www.shellcheck.net/
 
